@@ -31,7 +31,7 @@ for lines in lines:
     e =str ( lines.split())
     print(type(e))
     print(e)
-    ele = e.split(",")
+    ele = [x.strip() for x in e.split(',')]
     print(type(ele))
     print(ele)
    
