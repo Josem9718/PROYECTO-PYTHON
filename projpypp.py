@@ -36,7 +36,6 @@ def convert(dato):
     else:
         x = int(dato)
 
-
     if x < 0:
         return bin(x & (2**8-1))[2:].zfill(8)
         
@@ -51,21 +50,16 @@ f = open(fname,"r")
 f2 = open(newfile,"w")
 lines = f.readlines()
 
-for lines in lines:
+for line in lines:
     
     result = lines.replace(':','')
     ele = check_str(result)
 
     print(ele)
     
-<<<<<<< HEAD
+
     if (ele['nem'] == 'addi'):
         content = opcode['addi'] +reg[ele['item2']] + reg[ ele['item1']] + convert(ele['item3'])
-=======
-    if  (ele['nem'] == 'addi'):
-        content = opcode['addi'] +reg[ele['item2']] + reg[ ele['item1']]
-       # + convert(ele['item3'])
->>>>>>> cd61b20d18182462d867f3c59744cd09e32bce59
         f2.write(content)
         f2.write("\n")
     elif  (ele['nem'] == 'add'):
