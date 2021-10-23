@@ -17,7 +17,7 @@ tags = {'MAIN':'00000001', 'EXIT':'00001111', 'FUNC':'00001000','INC':'00000100'
 reg = {'x0':'000', 'x1':'001', 'x2':'010',
         'x3':'011','x4':'100','x5':'101','x6':'110','x7':'111'}
 
-aux = {'zero':'000', 'ceros':'0000000'}
+label = {'MAIN': 1, 'EXIT':15,  'INC':4,  'DEC':9,  'FUNC':8}
 
 regex = re.compile(r"(?P<label>[A-Z]*)?\:?\t?\s*(?P<nem>[^,]*),\s*(?P<item1>[^,]*),\s*(?P<item2>[^,]*),\s*(?P<item3>[^,]*)\n?")
 
@@ -28,8 +28,16 @@ def check_str(text):
         raise Exception("Entered text '%s' is not valid"%(text))
     return regex_match.groupdict()
 
+def strto(cad):
+    
+    if "x" in cad:
+        aux = int(cad,16)
+        return aux
+    else:
+        return int(cad)
+
+
 def convert(x):
-    eval(x)
     if x < 0:
         return bin(x & (2**8-1))[2:].zfill(8)
         
@@ -43,17 +51,17 @@ newfile = input("Ingrese el nombre del archivo a generar: ")
 f = open(fname,"r")
 f2 = open(newfile,"w")
 lines = f.readlines()
-
+count = 0
 for lines in lines:
     
     result = lines.replace(':','')
     ele = check_str(result)
 
-    print(ele)
+   #count+=1
     
     if  (ele['nem'] == 'addi'):
-        content = opcode['addi'] +reg[ele['item2']] + reg[ ele['item1']]
-       # + convert(ele['item3'])
+        num = strto(ele['item3'])
+        content = opcode['addi'] + reg[ele['item2']] + reg[ele['item1']] + convert(num)
         f2.write(content)
         f2.write("\n")
     elif  (ele['nem'] == 'add'):
@@ -61,7 +69,8 @@ for lines in lines:
         f2.write(content)
         f2.write("\n")
     elif  (ele['nem'] == 'andi'):
-        content = opcode['andi'] + reg[ele['item2']] + reg[ele['item1']] + convert()
+        num = strto(ele['item3'])
+        content = opcode['andi'] + reg[ele['item2']] + reg[ele['item1']] + convert(num)
         f2.write(content)
         f2.write("\n")    
     elif  (ele['nem'] == 'and'):
@@ -81,33 +90,37 @@ for lines in lines:
         f2.write(content)
         f2.write("\n") 
     elif  (ele['nem'] == 'beq'):
-        content = opcode['beq'] + reg[ele['item1']] + reg[ele['item2']] + offset #offset ele[4]
+        num = label[ele['item3']] - count
+        content = opcode['beq'] + reg[ele['item1']] + reg[ele['item2']] +convert(num)
         f2.write(content)
         f2.write("\n")   
     elif  (ele['nem'] == 'bne'):
-        content = opcode['bne'] + reg[ele['item1']] + reg[ele['item2']] + offset #offset ele[4]
+        num = label[ele['item3']] - count
+        content = opcode['bne'] + reg[ele['item1']] + reg[ele['item2']] + convert(num)
         f2.write(content)
         f2.write("\n")      
     elif  (ele['nem'] == 'lb'):
-        content = opcode['lb'] + reg[ele['item3']] + reg[ele['item1']] + offset #ofset ele[3]
+        num = strto(ele['item2'])
+        content = opcode['lb'] + reg[ele['item3']] + reg[ele['item1']] + convert(num) 
         f2.write(content)
         f2.write("\n")   
     elif  (ele['nem'] == 'sb'):
-        content = opcode['sb'] + reg[ele['item3']] + reg[ele['item1']] + offset #ofset ele[3]      
+        num = strto(ele['item2'])
+        content = opcode['sb'] + reg[ele['item3']] + reg[ele['item1']] + convert(num)
         f2.write(content)
         f2.write("\n")   
     elif  (ele['nem'] == 'j'):
-        content = opcode['j'] + target + 00000
+        content = opcode['j'] + '000000' + tags[ele['nem']] 
         f2.write(content)
         f2.write("\n")  
     elif  (ele['nem'] == 'jal'):
-        content = opcode['jal'] + target + 00000
+        content = opcode['jal'] +'000000'+ tags[ele['nem']]
         f2.write(content)
         f2.write("\n")  
     elif  (ele['nem'] == 'jr'):
-        content = opcode['jr'] + reg[ele['item1']] + 000000000
+        content = opcode['jr'] + reg[ele['item1']]+'00000000000'
         f2.write(content)
         f2.write("\n")
-
+    count = count + 1
 f.close()
 
