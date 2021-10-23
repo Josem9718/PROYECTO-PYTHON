@@ -8,7 +8,7 @@
 #----Miguel Benavides---- Rolando Araujo-----
 import re
 
-opcode = {'add': '0000','addi':'0001', 'and':'0100', 'andi':'0011', 'beq':'0100',
+opcode = {'add': '0000','addi':'0001', 'and':'0010', 'andi':'0011', 'beq':'0100',
           'bne':'0101', 'j':'0110', 'jal':'0111', 'jr':'1010', 'lb':'1011',
           'or':'1100', 'sb':'1101', 'sll':'1110', 'srl':'1111' }
 
@@ -28,14 +28,8 @@ def check_str(text):
         raise Exception("Entered text '%s' is not valid"%(text))
     return regex_match.groupdict()
 
-def convert(dato):
-
-    if dato[0:1] == '0x':
-        aux = int(dato,16)
-        x = hex(aux)
-    else:
-        x = int(dato)
-
+def convert(x):
+    eval(x)
     if x < 0:
         return bin(x & (2**8-1))[2:].zfill(8)
         
@@ -50,21 +44,20 @@ f = open(fname,"r")
 f2 = open(newfile,"w")
 lines = f.readlines()
 
-for line in lines:
+for lines in lines:
     
     result = lines.replace(':','')
     ele = check_str(result)
 
     print(ele)
     
-
-    if (ele['nem'] == 'addi'):
-        content = opcode['addi'] +reg[ele['item2']] + reg[ ele['item1']] + convert(ele['item3'])
+    if  (ele['nem'] == 'addi'):
+        content = opcode['addi'] +reg[ele['item2']] + reg[ ele['item1']]
+       # + convert(ele['item3'])
         f2.write(content)
         f2.write("\n")
     elif  (ele['nem'] == 'add'):
-        content = opcode['add'] + reg[ele['item2']] + reg[ele['item3']] +
-        reg[ele['item1']]
+        content = opcode['add'] + reg[ele['item2']] + reg[ele['item3']] + reg[ele['item1']]
         f2.write(content)
         f2.write("\n")
     elif  (ele['nem'] == 'andi'):
@@ -72,23 +65,19 @@ for line in lines:
         f2.write(content)
         f2.write("\n")    
     elif  (ele['nem'] == 'and'):
-        content = opcode['and'] + reg[ele['item2']] + reg[ele['item3']] +
-        reg[ele['item1']]
+        content = opcode['and'] + reg[ele['item2']] + reg[ele['item3']] + reg[ele['item1']]
         f2.write(content)
         f2.write("\n")
     elif  (ele['nem'] == 'or'):
-        content = opcode['or'] + reg[ele['item2']] + reg[ele['item3']] +
-        reg[ele['item1']]
+        content = opcode['or'] + reg[ele['item2']] + reg[ele['item3']] + reg[ele['item1']]
         f2.write(content)
         f2.write("\n")
     elif  (ele['nem'] == 'sll'):
-        content = opcode['sll'] + reg[ele['item2']] + reg[ele['item3']] +
-        reg[ele['item1']]
+        content = opcode['sll'] + reg[ele['item2']] + reg[ele['item3']] + reg[ele['item1']]
         f2.write(content)
         f2.write("\n")
     elif  (ele['nem'] == 'srl'):
-        content = opcode['srl'] + reg[ele['item2']] + reg[ele['item3']] +
-        reg[ele['item1']]
+        content = opcode['srl'] + reg[ele['item2']] + reg[ele['item3']] + reg[ele['item1']]
         f2.write(content)
         f2.write("\n") 
     elif  (ele['nem'] == 'beq'):
