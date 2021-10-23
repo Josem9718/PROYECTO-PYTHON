@@ -57,7 +57,7 @@ for lines in lines:
         f2.write(content)
         f2.write("\n")
     elif  (ele['nem'] == 'add'):
-        content = opcode['add'] + reg[ele['item2']] + reg[ele['item3']] + reg[ele['item1']]
+        content = opcode['add'] + reg[ele['item2']] + reg[ele['item3']] + reg[ele['item1']] + '00000'
         f2.write(content)
         f2.write("\n")
     elif  (ele['nem'] == 'andi'):
@@ -65,19 +65,19 @@ for lines in lines:
         f2.write(content)
         f2.write("\n")    
     elif  (ele['nem'] == 'and'):
-        content = opcode['and'] + reg[ele['item2']] + reg[ele['item3']] + reg[ele['item1']]
+        content = opcode['and'] + reg[ele['item2']] + reg[ele['item3']] + reg[ele['item1']] + '00000'
         f2.write(content)
         f2.write("\n")
     elif  (ele['nem'] == 'or'):
-        content = opcode['or'] + reg[ele['item2']] + reg[ele['item3']] + reg[ele['item1']]
+        content = opcode['or'] + reg[ele['item2']] + reg[ele['item3']] + reg[ele['item1']] + '00000'
         f2.write(content)
         f2.write("\n")
     elif  (ele['nem'] == 'sll'):
-        content = opcode['sll'] + reg[ele['item2']] + reg[ele['item3']] + reg[ele['item1']]
+        content = opcode['sll'] + reg[ele['item2']] + reg[ele['item3']] + reg[ele['item1']] + '00000'
         f2.write(content)
         f2.write("\n")
     elif  (ele['nem'] == 'srl'):
-        content = opcode['srl'] + reg[ele['item2']] + reg[ele['item3']] + reg[ele['item1']]
+        content = opcode['srl'] + reg[ele['item2']] + reg[ele['item3']] + reg[ele['item1']] + '00000'
         f2.write(content)
         f2.write("\n") 
     elif  (ele['nem'] == 'beq'):
