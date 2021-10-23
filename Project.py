@@ -110,7 +110,7 @@ for lines in lines:
         f2.write(content)
         f2.write("\n")
     elif  (ele[1] == 'srl'):
-        content = opcode['srl'] + reg[ele[3]] + reg[ele[4]] + reg[ele[4]] + zero['c5']
+        content = opcode['srl'] + reg[ele[3]] + reg[ele[4]] + reg[ele[2]] + zero['c5']
         f2.write(content)
         f2.write("\n") 
     elif  (ele[1] == 'beq'):
@@ -128,23 +128,31 @@ for lines in lines:
         content = opcode['lb'] + reg[ele[4]] + reg[ele[2]] + convert(num) 
         f2.write(content)
         f2.write("\n")   
+   
+    elif  (ele[1] == 'j'):
+        tex = opcode['j'] + zero['c3']+ zero['c3'] + tags[ele[1]] 
+        f2.write(tex)
+        f2.write("\n")  
     elif  (ele[1] == 'sb'):
         num = strto(ele[3])
         content = opcode['sb'] + reg[ele[4]] + reg[ele[2]] + convert(num)
         f2.write(content)
         f2.write("\n")   
-    elif  (ele[1] == 'j'):
-        content = opcode['j'] + zero['c3']+ zero['c3'] + tags[ele[1]] 
-        f2.write(content)
-        f2.write("\n")  
+    #elif  (ele[1] == 'j'):
+     #   content = opcode['j'] + zero['c3']+ zero['c3'] + tags[ele[1]] 
+      #  f2.write(content)
+       # f2.write("\n")  
     elif  (ele[1] == 'jal'):
-        content = opcode['jal'] + zero['c3']+ zero['c3']+ tags[ele[1]]
-        f2.write(content)
+        tex = opcode['jal'] + zero['c3']+ zero['c3']+ tags[ele[1]]
+        f2.write(tex)
         f2.write("\n")  
     elif  (ele[1] == 'jr'):
         content = opcode['jr'] + reg[ele[2]]+ zero['c3'] + zero['c8'] 
         f2.write(content)
         f2.write("\n")
+    #else:
+      #  print("")
+
     count = count + 1
 f.close()
 
