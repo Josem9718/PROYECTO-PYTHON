@@ -29,7 +29,7 @@ def check_str(text):
     return regex_match.groupdict()
 
 def convert(dato):
-
+    print(dato[0:1])
     if dato[0:1] == '0x':
         aux = int(dato,16)
         x = hex(aux)
