@@ -28,8 +28,15 @@ def check_str(text):
         raise Exception("Entered text '%s' is not valid"%(text))
     return regex_match.groupdict()
 
-def convert(x):
-    eval(x)
+def convert(dato):
+
+    if dato[0:1] == '0x':
+        aux = int(dato,16)
+        x = hex(aux)
+    else:
+        x = int(dato)
+
+
     if x < 0:
         return bin(x & (2**8-1))[2:].zfill(8)
         
@@ -52,8 +59,7 @@ for lines in lines:
     print(ele)
     
     if (ele['nem'] == 'addi'):
-        content = opcode['addi'] +reg[ele['item2']] + reg[ ele['item1']]
-       # + convert(ele['item3'])
+        content = opcode['addi'] +reg[ele['item2']] + reg[ ele['item1']] + convert(ele['item3'])
         f2.write(content)
         f2.write("\n")
     elif 'add' in ele:
