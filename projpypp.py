@@ -6,6 +6,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #     
 #----Miguel Benavides---- Rolando Araujo-----
+import re
 
 opcode = {'add': '0000','addi':'0001', 'and':'0100', 'andi':'0011', 'beq':'0100',
           'bne':'0101', 'j':'0110', 'jal':'0111', 'jr':'1010', 'lb':'1011',
@@ -18,7 +19,17 @@ reg = {'x0':'000', 'x1':'001', 'x2':'010',
 
 aux = {'zero':'000', 'ceros':'0000000'}
 
+regex = re.compile(r"(?P<label>[A-Z]*)?\:?\t?\s*(?P<nem>[^,]*),\s*(?P<item1>[^,]*),\s*(?P<item2>[^,]*),\s*(?P<item3>[^,]*)\n?")
+
+def check_str(text):
+    text = text.replace('\t','').strip()
+    regex_match = regex.match(text)
+    if not regex_match:
+        raise Exception("Entered text '%s' is not valid"%(text))
+    return regex_match.groupdict()
+
 def convert(x):
+    eval(x)
     if x < 0:
         return bin(x & (2**8-1))[2:].zfill(8)
         
@@ -34,69 +45,67 @@ f2 = open(newfile,"w")
 lines = f.readlines()
 
 for lines in lines:
-
     
-    e =str ( lines.split())
-    print(type(e))
-    print(e)
-    ele = [x.strip() for x in e.split(',')]
-    print(type(ele))
+    result = lines.replace(':','')
+    ele = check_str(result)
+
     print(ele)
-   
-    if ele[1] == "addi":
-        content = opcode['addi'] + reg[ele[3]] + reg[ele[2]] + convert()
+    
+    if (ele['nem'] == 'addi'):
+        content = opcode['addi'] + ele['item2'] + ele['item1'] + convert(ele['item3'])
         f2.write(content)
         f2.write("\n")
-    elif ele[1] == "add":
+    elif 'add' in ele:
         content = opcode['add'] + reg[ele[3]] + reg[ele[4]] + reg[ele[2]]
         f2.write(content)
         f2.write("\n")
-    elif ele[1] == "andi":
-        content = opcode['andi'] + reg[ele[3]] + reg[ele[2]] + convert
+    elif 'andi'in ele:
+        content = opcode['andi'] + reg[ele[3]] + reg[ele[2]] + convert()
         f2.write(content)
         f2.write("\n")    
-    elif ele[1] == "and":
+    elif 'and' in ele:
         content = opcode['and'] + reg[ele[3]] + reg[ele[4]] + reg[ele[2]]
         f2.write(content)
         f2.write("\n")
-    elif ele[1] == "or":
+    elif 'or' in ele:
         content = opcode['or'] + reg[ele[3]] + reg[ele[4]] + reg[ele[2]]
         f2.write(content)
         f2.write("\n")
-    elif ele[1] == "sll":
+    elif 'sll' in ele:
         content = opcode['sll'] + reg[ele[3]] + reg[ele[4]] + reg[ele[2]]
         f2.write(content)
         f2.write("\n")
-    elif ele[1] == "srl":
+    elif 'srl' in ele :
         content = opcode['srl'] + reg[ele[3]] + reg[ele[4]] + reg[ele[2]]
         f2.write(content)
         f2.write("\n") 
-    elif ele[1] == "beq":
+    elif 'beq'in ele:
         content = opcode['beq'] + reg[ele[2]] + reg[ele[3]] + offset #offset ele[4]
         f2.write(content)
         f2.write("\n")   
-    elif ele[1] == "bne":
+    elif 'bne' in ele:
         content = opcode['bne'] + reg[ele[2]] + reg[ele[3]] + offset #offset ele[4]
         f2.write(content)
         f2.write("\n")      
-    elif ele[1] == "lb":
+    elif 'lb'in ele:
         content = opcode['lb'] + reg[ele[4]] + reg[ele[2]] + offset #ofset ele[3]
         f2.write(content)
         f2.write("\n")   
-    elif ele[1] == "sb":
-        content = opcode['sb'] + reg[ele[4]] + reg[ele[2]] + offset #ofset ele[3]
+    elif 'sb' in ele:
+        content = opcode['sb'] + reg[ele[4]] + reg[ele[2]] + offset #ofset ele[3]      
         f2.write(content)
         f2.write("\n")   
-    elif ele[1] == "j":
+    elif 'j' in ele:
         content = opcode['j'] + target + 00000
         f2.write(content)
         f2.write("\n")  
-    elif ele[1] == "jal":
+    elif 'jal' in ele:
         content = opcode['jal'] + target + 00000
         f2.write(content)
         f2.write("\n")  
-    elif ele[1] == "jr":
+    elif 'jr' in ele:
         content = opcode['jr'] + reg[ele[2]] + 000000000
         f2.write(content)
-        f2.write("\n")          
+        f2.write("\n")
+
 f.close()
