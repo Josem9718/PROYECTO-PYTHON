@@ -58,60 +58,71 @@ for lines in lines:
 
     print(ele)
     
+<<<<<<< HEAD
     if (ele['nem'] == 'addi'):
         content = opcode['addi'] +reg[ele['item2']] + reg[ ele['item1']] + convert(ele['item3'])
+=======
+    if  (ele['nem'] == 'addi'):
+        content = opcode['addi'] +reg[ele['item2']] + reg[ ele['item1']]
+       # + convert(ele['item3'])
+>>>>>>> cd61b20d18182462d867f3c59744cd09e32bce59
         f2.write(content)
         f2.write("\n")
-    elif 'add' in ele:
-        content = opcode['add'] + reg[ele[3]] + reg[ele[4]] + reg[ele[2]]
+    elif  (ele['nem'] == 'add'):
+        content = opcode['add'] + reg[ele['item2']] + reg[ele['item3']] +
+        reg[ele['item1']]
         f2.write(content)
         f2.write("\n")
-    elif 'andi'in ele:
-        content = opcode['andi'] + reg[ele[3]] + reg[ele[2]] + convert()
+    elif  (ele['nem'] == 'andi'):
+        content = opcode['andi'] + reg[ele['item2']] + reg[ele['item1']] + convert()
         f2.write(content)
         f2.write("\n")    
-    elif 'and' in ele:
-        content = opcode['and'] + reg[ele[3]] + reg[ele[4]] + reg[ele[2]]
+    elif  (ele['nem'] == 'and'):
+        content = opcode['and'] + reg[ele['item2']] + reg[ele['item3']] +
+        reg[ele['item1']]
         f2.write(content)
         f2.write("\n")
-    elif 'or' in ele:
-        content = opcode['or'] + reg[ele[3]] + reg[ele[4]] + reg[ele[2]]
+    elif  (ele['nem'] == 'or'):
+        content = opcode['or'] + reg[ele['item2']] + reg[ele['item3']] +
+        reg[ele['item1']]
         f2.write(content)
         f2.write("\n")
-    elif 'sll' in ele:
-        content = opcode['sll'] + reg[ele[3]] + reg[ele[4]] + reg[ele[2]]
+    elif  (ele['nem'] == 'sll'):
+        content = opcode['sll'] + reg[ele['item2']] + reg[ele['item3']] +
+        reg[ele['item1']]
         f2.write(content)
         f2.write("\n")
-    elif 'srl' in ele :
-        content = opcode['srl'] + reg[ele[3]] + reg[ele[4]] + reg[ele[2]]
+    elif  (ele['nem'] == 'srl'):
+        content = opcode['srl'] + reg[ele['item2']] + reg[ele['item3']] +
+        reg[ele['item1']]
         f2.write(content)
         f2.write("\n") 
-    elif 'beq'in ele:
-        content = opcode['beq'] + reg[ele[2]] + reg[ele[3]] + offset #offset ele[4]
+    elif  (ele['nem'] == 'beq'):
+        content = opcode['beq'] + reg[ele['item1']] + reg[ele['item2']] + offset #offset ele[4]
         f2.write(content)
         f2.write("\n")   
-    elif 'bne' in ele:
-        content = opcode['bne'] + reg[ele[2]] + reg[ele[3]] + offset #offset ele[4]
+    elif  (ele['nem'] == 'bne'):
+        content = opcode['bne'] + reg[ele['item1']] + reg[ele['item2']] + offset #offset ele[4]
         f2.write(content)
         f2.write("\n")      
-    elif 'lb'in ele:
-        content = opcode['lb'] + reg[ele[4]] + reg[ele[2]] + offset #ofset ele[3]
+    elif  (ele['nem'] == 'lb'):
+        content = opcode['lb'] + reg[ele['item3']] + reg[ele['item1']] + offset #ofset ele[3]
         f2.write(content)
         f2.write("\n")   
-    elif 'sb' in ele:
-        content = opcode['sb'] + reg[ele[4]] + reg[ele[2]] + offset #ofset ele[3]      
+    elif  (ele['nem'] == 'sb'):
+        content = opcode['sb'] + reg[ele['item3']] + reg[ele['item1']] + offset #ofset ele[3]      
         f2.write(content)
         f2.write("\n")   
-    elif 'j' in ele:
+    elif  (ele['nem'] == 'j'):
         content = opcode['j'] + target + 00000
         f2.write(content)
         f2.write("\n")  
-    elif 'jal' in ele:
+    elif  (ele['nem'] == 'jal'):
         content = opcode['jal'] + target + 00000
         f2.write(content)
         f2.write("\n")  
-    elif 'jr' in ele:
-        content = opcode['jr'] + reg[ele[2]] + 000000000
+    elif  (ele['nem'] == 'jr'):
+        content = opcode['jr'] + reg[ele['item1']] + 000000000
         f2.write(content)
         f2.write("\n")
 
