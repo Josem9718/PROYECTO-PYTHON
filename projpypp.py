@@ -52,7 +52,8 @@ for lines in lines:
     print(ele)
     
     if (ele['nem'] == 'addi'):
-        content = opcode['addi'] + ele['item2'] + ele['item1'] + convert(ele['item3'])
+        content = opcode['addi'] +reg[ele['item2']] + reg[ ele['item1']]
+       # + convert(ele['item3'])
         f2.write(content)
         f2.write("\n")
     elif 'add' in ele:
